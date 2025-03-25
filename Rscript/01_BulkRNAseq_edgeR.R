@@ -20,7 +20,7 @@ library(tidyverse)
 
 AMLE <- read.csv("./00 Raw/DMSO_APP_Readcount.csv")
 
-AMLE<- distinct(AMLE,geneID, .keep_all = T) # 중복값제거
+AMLE<- distinct(AMLE,geneID, .keep_all = T) 
 AMLE<- column_to_rownames(AMLE,var = "geneID")
 
 
@@ -32,9 +32,9 @@ na_indices <- which(is.na(AMLE), arr.ind = TRUE)
 
 any_na <- any(is.na(AMLE))
 if (any_na) {
-  print("데이터셋에 NA 값이 있습니다.")
+  print("have NA.")
 } else {
-  print("데이터셋에 NA 값이 없습니다.")
+  print("not NA.")
 }
 
 # write.csv(AMLE,"./DMSO_APP_Readcount.csv")
@@ -322,14 +322,14 @@ row.names(DGE_list) -> DGE_list_CP$table$SYMBOL
 
 result_deseq <- DGE_list$table
 
-# logFC 순서로 정렬 
+# logFC 
 result_deseq %>% 
   mutate(
     rank = rank(logFC, ties.method = "random")
   ) %>% 
   arrange(desc(rank)) %>% data.frame() -> gsea_data
 
-#벡터 생성및 전달_값할당
+
 gsea_data$logFC -> gsea_vector
 
 gsea_data$SYMBOL -> names(gsea_vector)
